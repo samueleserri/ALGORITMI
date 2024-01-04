@@ -5,6 +5,9 @@ from queue import Queue
 bianco = "bianco"
 grigio = "grigio"
 nero = "nero"
+def adiacenti(u, V, E):
+    return [arco[1] for arco in E if arco[0] == u]
+
 
 def BFS(V, E ,start):
     colore = {}       # Dizionario per memorizzare il colore di ciascun vertice
@@ -23,3 +26,12 @@ def BFS(V, E ,start):
     Q = Queue()               # Creazione di una coda per gestire la visita BFS
     Q.put(start)              # Inserimento del vertice di partenza nella coda
     
+    while not Q.empty():
+        u = Q.get() #prendo il primo nodo della coda
+        for  v in adiacenti(u, V, E): #esploro tutti i vicini
+            if colore[v] == bianco: #considero solo quelli mai visitati
+                colore[v]=grigio
+                distanza[v]=distanza[u]+1
+                predecessore[v]= u
+                Q.put(v) #v potrebbe avere dei vicini bianchi, dunque lo mettiamo in coda
+        colore[u]=nero
